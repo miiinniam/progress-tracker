@@ -13,6 +13,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="./工作进度追踪器 Pro (v2.0)_files/css2" rel="stylesheet">
+    <!-- 防缓存 + PWA（解决数据不更新） -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e40af">
 
     <script>
         tailwind.config = {
@@ -5719,10 +5725,22 @@
         // Boot
         window.onload = initApp;
 
+
     </script>
 
     <div class="fixed bottom-0 right-0 w-12 h-12 opacity-0 cursor-default z-[100]" onclick="secretClearData()"></div>
 
+    <script>
+        // === 优化版 PWA + 强制不缓存（关键修复）===
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js?v=' + Date.now())
+                .then(() => console.log('✅ PWA 已更新 - 数据现在会实时刷新'))
+                .catch(err => console.error(err));
+        }
+
+        // 你的原有全部 JavaScript 代码（保持不变）
+        window.onload = initApp;
+    </script>
 
 </body>
 
